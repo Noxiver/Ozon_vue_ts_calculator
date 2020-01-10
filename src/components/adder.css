@@ -17,6 +17,7 @@
 }
 .num{
   border: 1px solid rgba(131,181,237,0.18);
+  font-family: Montserrat;
 }
 
 .num:last-child{
@@ -26,6 +27,7 @@
 }
 .sign{
   border: 1px solid rgba(131,181,237,0.18);
+  font-family: Montserrat;
 }
 .signs {
 
