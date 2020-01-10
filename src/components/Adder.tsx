@@ -43,22 +43,17 @@ const Adder = tsx.componentFactoryOf<IEvents>().create({
   data(): IAdderData {
     return {
       signs: [
+        Sign ["C"],
         Sign["+"],
         Sign["-"],
-        Sign["x"],
-        Sign["/"]
+        Sign["="]
       ],
       nums:[
+        Num["Seven"], Num["Eight"], Num["Nine"],
+        Num["Four"], Num["Five"],Num["Six"],
+        Num["One"], Num["Two"], Num["Three"],
         Num["Zero"],
-        Num["One"],
-        Num["Two"],
-        Num["Three"],
-        Num["Four"],
-        Num["Five"],
-        Num["Six"],
-        Num["Seven"],
-        Num["Eight"],
-        Num["Nine"]
+
       ]
     }
   },
@@ -69,13 +64,11 @@ const Adder = tsx.componentFactoryOf<IEvents>().create({
     return (
       <div class='wrapper'>
         <div class='inner'>
-          <div class='number'>
-            {left}
-          </div>
-          <div class='number'>
+          <div class='display'>
+          <div class='numbers'>
             {nums.map(num =>
                 <span
-                    class={num === selectedNum ? 'selected sign' : 'sign'}
+                    class={num === selectedNum ? 'selected num' : 'num'}
                     onclick={() => this.$emit('changeSign', num)}
                 >
                 {num}
@@ -92,10 +85,8 @@ const Adder = tsx.componentFactoryOf<IEvents>().create({
               </span>)
             }
           </div>
-
-          <div class='number'>
-            {right}
           </div>
+
         </div>
 
         <div class='result'>
