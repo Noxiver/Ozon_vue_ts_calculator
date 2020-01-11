@@ -93,4 +93,5 @@
 .result {
     padding-top: 10%;
     font-size: 1.8em;
+    direction: ltr;
 }
