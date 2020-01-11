@@ -52,7 +52,7 @@ const App = tsx.component({
             <Adder
                 onChangeSign={this.addToLine}
             >
-                <div slot='result'>   {this.result}=</div>
+                <div slot='result'>   ={this.result}</div>
                 <div slot='line'> {this.line} </div>
             </Adder>
         )
