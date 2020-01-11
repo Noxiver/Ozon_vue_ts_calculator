@@ -1,31 +1,47 @@
-import { Module } from 'vuex'
-import { Sign } from '@/types/sign'
+import {Module} from 'vuex'
+import {Mutation, State} from 'vuex-simple';
+import {Sign} from '@/types/sign'
+import {Num} from '@/types/num'
+
 
 interface ICalculationState {
-  left: number
-  right: number
-  sign: Sign
+    result: number
+    line: string
 }
 
-const SET_SIGN = 'SET_SIGN'
+const LINE = 'LINE'
+const RESULT = 'RESULT'
+
 
 const calculation: Module<ICalculationState, {}> = {
-  namespaced: true,
+    namespaced: true,
 
-  state: {
-    left: 0,
-    right: 0,
-    sign: Sign['-']
-  },
+    state: {
+        result: 0,
+        line: ''
+    },
 
-  mutations: {
-    [SET_SIGN](state, payload: Sign) {
-      state.sign = payload
+    getters: {
+        LINE: state => {
+            return state.line;
+        },
+        RESULT: state => {
+            return state.result;
+        },
+    },
+
+
+    mutations: {
+        ADD_LINE: state => {
+            state.line += LINE
+        },
+        ADD_RESULT: state => {
+            state.result += parseInt(RESULT)
+        },
     }
-  }
 }
 
 export {
-  calculation,
-  ICalculationState
+    calculation,
+    ICalculationState
 }

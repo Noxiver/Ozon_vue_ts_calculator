@@ -1,102 +1,93 @@
 import * as tsx from 'vue-tsx-support'
-import { VNode } from 'vue'
-
-import { Sign } from '@/types/sign'
-import { Num } from '@/types/num'
+import {VNode} from 'vue'
+import {IState} from '@/store'
+import {Sign} from '@/types/sign'
+import {Num} from '@/types/num'
 import './adder.css'
 
 interface IEvents {
-  onChangeSign: (sign: Sign) => void
+    onChangeSign: (sign: Sign, num: Num) => void
+
 }
 
 interface IAdderData {
-  signs: Sign[]
-  nums: Num[];
+    signs: Sign[]
+    nums: Num[];
 }
 
 const Adder = tsx.componentFactoryOf<IEvents>().create({
-  name: 'Adder',
+    name: 'Adder',
 
-  props: {
-    selectedSign: {
-      type: String as () => Sign,
-      required: true as true
+    props: {},
+
+    data(): IAdderData {
+        return {
+            signs: [
+                Sign ["C"],
+                Sign["+"],
+                Sign["-"],
+                Sign["="],
+            ],
+            nums: [
+                Num["Seven"], Num["Eight"], Num["Nine"],
+                Num["Four"], Num["Five"], Num["Six"],
+                Num["One"], Num["Two"], Num["Three"],
+                Num["Zero"],
+
+            ]
+        }
+    },
+    computed: {
+        add_list() {
+            return this.$store.getters.ADD_LINE
+        },
+        add_result() {
+            return this.$store.getters.ADD_RESULT
+        }
     },
 
-    selectedNum: {
-      type: Number as () => Num,
-      required: true as true
+    render(): VNode {
+        const {nums, signs} = this
 
-    },
-
-    left: {
-      type: Number,
-      required: true as true
-    },
-
-    right: {
-      type: Number,
-      required: true as true
-    }
-  },
-
-  data(): IAdderData {
-    return {
-      signs: [
-        Sign ["C"],
-        Sign["+"],
-        Sign["-"],
-        Sign["="]
-      ],
-      nums:[
-        Num["Seven"], Num["Eight"], Num["Nine"],
-        Num["Four"], Num["Five"],Num["Six"],
-        Num["One"], Num["Two"], Num["Three"],
-        Num["Zero"],
-
-      ]
-    }
-  },
-
-  render(): VNode {
-    const {nums, signs, left, right, selectedSign, selectedNum } = this
-
-    return (
-      <div class='wrapper'>
-        <div class='inner'>
-          <div class='display'>
-          <div class='numbers'>
-            {nums.map(num =>
-                <span
-                    class={num === selectedNum ? 'selected num' : 'num'}
-                    onclick={() => this.$emit('changeSign', num)}
-                >
+        return (
+            <div class='wrapper'>
+                <div class='inner'>
+                    <div class='line'>
+          <span class='row'>
+            {this.$slots.line}
+          </span>
+                    </div>
+                    <div class='result'>
+          <span>
+            {this.$slots.result}
+          </span>
+                    </div>
+                </div>
+                <div class='display'>
+                    <div class='numbers'>
+                        {nums.map(num =>
+                            <span
+                                class={"num"}
+                                onClick={() => this.$emit('changeSign', Sign.Null, num)}
+                            >
                 {num}
               </span>)
-            }
-          </div>
-          <div class='signs'>
-            {signs.map(sign =>
-              <span
-                class={sign === selectedSign ? 'selected sign' : 'sign'}
-                onClick={() => this.$emit('changeSign', sign)}
-              >
+                        }
+                    </div>
+                    <div class='signs'>
+                        {signs.map(sign =>
+                            <span
+                                class={"sign"}
+                                onClick={() => this.$emit('changeSign', sign, Num.Null)}
+                            >
                 {sign}
               </span>)
-            }
-          </div>
-          </div>
-
-        </div>
-
-        <div class='result'>
-          <span>
-            Result: {this.$slots.result}
-          </span>
-        </div>
-      </div>
-    )
-  }
+                        }
+                    </div>
+                </div>
+            </div>
+        )
+    }
 })
 
-export { Adder }
+export {Adder}

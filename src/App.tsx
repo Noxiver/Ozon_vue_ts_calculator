@@ -1,62 +1,62 @@
 import * as tsx from 'vue-tsx-support'
-import { VNode } from 'vue'
-import { Adder } from './components/Adder'
+import {VNode} from 'vue'
+import {Adder} from './components/Adder'
+import {Num} from '@/types/num'
+import {Sign} from '@/types/sign'
+import {IState} from '@/store'
 
-import { Sign } from '@/types/sign'
-import { IState } from '@/store'
 
 const App = tsx.component({
-  name: 'App',
-
-  computed: {
-
-    left(): number {
-      return (this.$store.state as IState).calculation.left
+    name: 'App',
+    data() {
+        return {
+            line: '',
+            result: 0
+        }
     },
 
-    right(): number {
-      return (this.$store.state as IState).calculation.right
+    computed: {
+
+        line(): string {
+            return (this.$store.state as IState).calculation.line
+        },
+
     },
 
-    sign(): Sign {
-      return (this.$store.state as IState).calculation.sign
+    methods: {
+        changeLine(line: string) {
+            this.$store.commit('calculation/line', line)
+        },
+
+        addToLine(sign: Sign, num: Num) {
+            console.log(sign);
+            console.log(num);
+            if (sign == Sign["="]) {
+                this.result = eval(this.line);
+                this.line = eval(this.line);
+            } else if (sign == Sign.C) {
+                this.line = '';
+                this.result = 0;
+            } else if (sign != Sign.Null) {
+                this.line += sign.toString();
+                console.log(this.line);
+            } else {
+                this.line += num.toString();
+            }
+
+        },
     },
 
-    result(): number {
-      switch (this.sign) {
-        case Sign['+']:
-          return this.left + this.right
-        case Sign['-']:
-          return this.left - this.right
-      }
+    render(): VNode {
+        return (
+            <Adder
+                onChangeSign={this.addToLine}
+            >
+                <div slot='result'>   {this.result}=</div>
+                <div slot='line'> {this.line} </div>
+            </Adder>
+        )
     }
-  },
-
-  methods: {
-    changeSign(sign: Sign) {
-      this.$store.commit('calculation/SET_SIGN', sign)
-    },
-    oldResult(): number{
-      return this.result()
-
-    }
-
-  },
-
-  render(): VNode {
-    return (
-      <Adder
-        left={this.left}
-        right={this.right}
-        selectedSign={this.sign}
-        onChangeSign={this.changeSign}
-      >
-        <div slot='result'>
-          {this.result}
-        </div>
-      </Adder>
-    )
-  }
 })
 
-export { App }
+export {App}

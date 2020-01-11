@@ -1,18 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { calculation, ICalculationState } from './calculation'
+import {calculation, ICalculationState} from './calculation'
 
 Vue.use(Vuex)
 
 interface IState {
-  calculation: ICalculationState
+    calculation: ICalculationState
 }
 
 const store = new Vuex.Store<IState>({
-  modules: {
-    calculation
-  }
+    modules: {
+        calculation
+    }
+
 })
 
-export { store, IState } 
+export {store, IState}

@@ -3,6 +3,7 @@ import { App } from './App'
 import { store } from '@/store'
 import Vuex from 'vuex'
 
+
 Vue.use(Vuex)
 
 Vue.config.productionTip = false
